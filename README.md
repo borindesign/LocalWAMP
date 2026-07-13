@@ -2,7 +2,13 @@
 
 LocalPHP Manager is a portable PHP development environment for Windows.
 
-This repository is intended to contain the public source code for the desktop manager and the packaging scripts. Runtime binaries, private website files, generated builds, and release ZIP files are intentionally kept out of Git.
+It is built for developers who want a simple local PHP stack with Apache, MySQL, phpMyAdmin, and PHP management on Windows.
+
+Live site: [localphp.net](https://localphp.net)
+
+Current release: [v1.1.0](https://github.com/borindesign/LocalPHP/releases/tag/v1.1.0)
+
+This repository contains the public source code for the desktop manager and the packaging scripts. Runtime binaries, private website files, generated builds, and release ZIP files are intentionally kept out of Git.
 
 ## Local Layout
 
@@ -33,4 +39,4 @@ In development, the app resolves the project root as its base directory. In a fr
 
 ## Releases
 
-Release ZIP files should be generated locally into `releases/`, then uploaded to the public download channel, such as `localphp.net`, and optionally attached to GitHub Releases. They should not be committed to the repository.
+Release ZIP files are generated locally in `releases/` and published through the download channel, such as `localphp.net`, and as GitHub Releases.
