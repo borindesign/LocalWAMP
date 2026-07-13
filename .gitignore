@@ -1,0 +1,33 @@
+﻿# Runtime and bundled services
+bin/
+system/phpmyadmin/
+htdocs/
+settings.json
+
+# Private website/landing page
+website/
+
+# Local release artifacts
+releases/*
+!releases/README.md
+*.zip
+
+# Build output
+build/
+dist/
+*.spec.bak
+
+# Python local files
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# Temporary files
+tmp/
+*.log
+
+# Codex/local metadata
+.agents/
+.codex/
