@@ -6,7 +6,7 @@ It is built for developers who want a simple local PHP stack with Apache, MySQL,
 
 Live site: [localphp.net](https://localphp.net)
 
-Current release: [v1.1.0](https://github.com/borindesign/LocalPHP/releases/tag/v1.1.0)
+Current release: [v1.2.0](https://github.com/borindesign/LocalPHP/releases/tag/v1.2.0)
 
 This repository contains the public source code for the desktop manager and the packaging scripts. Runtime binaries, private website files, generated builds, and release ZIP files are intentionally kept out of Git.
 

@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-project_root = Path(SPECPATH).parent.parent
+project_root = Path(SPECPATH).parent
 app_dir = project_root / 'app'
 
 

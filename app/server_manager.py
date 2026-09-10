@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import ctypes
+import os
 import shutil
 import subprocess
 import threading
@@ -72,6 +73,8 @@ class ServerManager:
         executable = self._validate_executable(exe_path)
         server_name = name.lower()
 
+        process_env = env
+
         if server_name == "apache":
             php_path = Path(php_dir).resolve()
             self.ensure_php_ini(php_path)
@@ -86,6 +89,11 @@ class ServerManager:
             self._log(
                 f"Configurazione Apache aggiornata: ServerRoot {apache_root.as_posix()}, PHPIniDir {php_path.as_posix()}, Listen {int(apache_port)}"
             )
+            apache_bin_dir = executable.parent.resolve()
+            process_env = self._build_apache_environment(php_path, apache_bin_dir, env)
+            self._log("Apache: preparazione ambiente di esecuzione")
+            self._log(f"Apache PATH: aggiunta directory PHP {php_path.as_posix()}")
+            self._log(f"Apache PATH: aggiunta directory Apache {apache_bin_dir.as_posix()}")
 
         if server_name == "mysql":
             my_ini_path = executable.parent.parent / "my.ini"
@@ -101,7 +109,7 @@ class ServerManager:
         required_ports = tuple(int(port) for port in (ports or ()))
         self.check_ports(required_ports)
         command = self._build_command(name, executable, args or ())
-        process = self._open_process(command, executable, cwd, env)
+        process = self._open_process(command, executable, cwd, process_env)
         server = ManagedServer(name, executable, process, required_ports)
 
         with self._lock:
@@ -308,6 +316,26 @@ class ServerManager:
             return ["cmd.exe", "/c", str(executable), *args]
 
         return [str(executable), *args]
+
+    @staticmethod
+    def _build_apache_environment(
+        php_dir: str | Path,
+        apache_bin_dir: str | Path,
+        overrides: Mapping[str, str] | None = None,
+    ) -> dict[str, str]:
+        env = os.environ.copy()
+        if overrides:
+            env.update(dict(overrides))
+
+        path_entries = [
+            str(Path(php_dir).resolve()),
+            str(Path(apache_bin_dir).resolve()),
+        ]
+        existing_path = env.get("PATH", "")
+        if existing_path:
+            path_entries.append(existing_path)
+        env["PATH"] = os.pathsep.join(path_entries)
+        return env
 
     def _open_process(
         self,
