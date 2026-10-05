@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import re
 import shutil
@@ -156,7 +156,7 @@ def setup_environment() -> tuple[Path, Path | None]:
 
     mysql_url = get_latest_url(MYSQL_DOWNLOAD_PAGE, MYSQL_PATTERN)
 
-    with tempfile.TemporaryDirectory(prefix="localphp_setup_") as temp:
+    with tempfile.TemporaryDirectory(prefix="localwamp_setup_") as temp:
         temp_dir = Path(temp)
         apache_exe = install_zip(apache_url, APACHE_DIR, "httpd.exe", temp_dir)
         mysql_exe = None

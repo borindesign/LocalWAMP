@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 import sys
 
 APP_DIR = Path(__file__).resolve().parent.parent / "app"
@@ -20,7 +20,7 @@ def create_dummy_server(path: Path, title: str) -> None:
         "\n".join(
             [
                 "@echo off",
-                f"title LocalPHP Dummy {title}",
+                f"title LocalWAMP Dummy {title}",
                 "timeout /t 100 /nobreak > nul",
             ]
         )

@@ -1,4 +1,12 @@
-﻿# Changelog
+# Changelog
+
+## v1.3.0
+
+- Renamed the application and new portable packages to LocalWAMP.
+- Added the supplied logo to the executable, window and taskbar, with Windows product metadata.
+- Apache updates migrate LocalPHP and LocalWAMP markers without duplicating managed blocks.
+- Added repeatable build and icon-generation commands and focused migration tests.
+- Updated the local presentation/download website branding, logo and favicons in English and Italian.
 
 ## v1.2.0
 

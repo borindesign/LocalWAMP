@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import re
 import shutil
@@ -44,7 +44,7 @@ def fetch_latest_php_packages(limit: int = 3) -> list[PhpPackage]:
 
 
 def collect_packages(page_url: str, packages: dict[str, PhpPackage]) -> None:
-    request = Request(page_url, headers={"User-Agent": "LocalPHP/1.0"})
+    request = Request(page_url, headers={"User-Agent": "LocalWAMP/1.0"})
     with urlopen(request, timeout=20) as response:
         html = response.read().decode("utf-8", errors="ignore")
 
@@ -91,7 +91,7 @@ def download_file(
     destination: Path,
     progress_callback: Callable[[int, int], None] | None = None,
 ) -> None:
-    request = Request(url, headers={"User-Agent": "LocalPHP/1.0"})
+    request = Request(url, headers={"User-Agent": "LocalWAMP/1.0"})
     with urlopen(request, timeout=30) as response:
         total = int(response.headers.get("Content-Length") or 0)
         downloaded = 0

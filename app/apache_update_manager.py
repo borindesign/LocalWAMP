@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import re
 import shutil
@@ -33,7 +33,7 @@ class ApachePackage:
 
 
 def fetch_latest_apache_packages(limit: int = 1) -> list[ApachePackage]:
-    request = Request(APACHE_DOWNLOAD_URL, headers={"User-Agent": "LocalPHP/1.0"})
+    request = Request(APACHE_DOWNLOAD_URL, headers={"User-Agent": "LocalWAMP/1.0"})
     with urlopen(request, timeout=20) as response:
         html = response.read().decode("utf-8", errors="ignore")
 
@@ -79,7 +79,7 @@ def download_file(
     destination: Path,
     progress_callback: Callable[[int, int], None] | None = None,
 ) -> None:
-    request = Request(url, headers={"User-Agent": "LocalPHP/1.0"})
+    request = Request(url, headers={"User-Agent": "LocalWAMP/1.0"})
     with urlopen(request, timeout=30) as response:
         total = int(response.headers.get("Content-Length") or 0)
         downloaded = 0

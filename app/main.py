@@ -1,6 +1,8 @@
 import atexit
+import ctypes
 from datetime import datetime
 import json
+import sys
 from pathlib import Path
 import threading
 import time
@@ -9,7 +11,7 @@ import webbrowser
 
 import customtkinter as ctk
 
-from app_paths import BASE_DIR
+from app_paths import BASE_DIR, resource_path
 from localization import LANGUAGE_LABELS, LocalizationManager, detect_default_language, language_code_from_label
 
 from apache_update_manager import ApachePackage, download_and_install_apache, fetch_latest_apache_packages
@@ -91,9 +93,13 @@ def safe_port(value: str, fallback: int) -> int:
     return port if 1 <= port <= 65535 else fallback
 
 
-class LocalPHPApp(ctk.CTk):
+class LocalWAMPApp(ctk.CTk):
     def __init__(self) -> None:
+        if sys.platform == "win32":
+            ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("Borindesign.LocalWAMP")
         super().__init__()
+        if sys.platform == "win32":
+            self.iconbitmap(str(resource_path("assets/localwamp.ico")))
 
         self.settings = load_settings()
         self.i18n = LocalizationManager(self.settings.get("lang"))
@@ -995,7 +1001,7 @@ class LocalPHPApp(ctk.CTk):
 
 
 def main() -> None:
-    app = LocalPHPApp()
+    app = LocalWAMPApp()
     app.mainloop()
 
 

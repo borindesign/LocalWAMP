@@ -9,14 +9,14 @@ DEFAULT_APACHE_CONF = BASE_DIR / "bin" / "apache" / "conf" / "httpd.conf"
 DEFAULT_APACHE_ROOT = BASE_DIR / "bin" / "apache"
 DEFAULT_PHP_DIR = BASE_DIR / "bin" / "php"
 DEFAULT_DOCUMENT_ROOT = BASE_DIR / "www"
-PHP_CONFIG_MARKER_START = "# LocalPHP PHP configuration start"
-PHP_CONFIG_MARKER_END = "# LocalPHP PHP configuration end"
-DOCROOT_MARKER_START = "# LocalPHP DocumentRoot start"
-DOCROOT_MARKER_END = "# LocalPHP DocumentRoot end"
-PHPMYADMIN_MARKER_START = "# LocalPHP phpMyAdmin start"
-PHPMYADMIN_MARKER_END = "# LocalPHP phpMyAdmin end"
-DIRECTORY_INDEX_MARKER_START = "# LocalPHP DirectoryIndex start"
-DIRECTORY_INDEX_MARKER_END = "# LocalPHP DirectoryIndex end"
+PHP_CONFIG_MARKER_START = "# LocalWAMP PHP configuration start"
+PHP_CONFIG_MARKER_END = "# LocalWAMP PHP configuration end"
+DOCROOT_MARKER_START = "# LocalWAMP DocumentRoot start"
+DOCROOT_MARKER_END = "# LocalWAMP DocumentRoot end"
+PHPMYADMIN_MARKER_START = "# LocalWAMP phpMyAdmin start"
+PHPMYADMIN_MARKER_END = "# LocalWAMP phpMyAdmin end"
+DIRECTORY_INDEX_MARKER_START = "# LocalWAMP DirectoryIndex start"
+DIRECTORY_INDEX_MARKER_END = "# LocalWAMP DirectoryIndex end"
 DIRECTORY_INDEX_LINE = "DirectoryIndex index.php index.html index.htm"
 PHP_COMPATIBILITY_ERROR = (
     "Versione PHP non compatibile con Apache (manca php8apache2_4.dll). "
@@ -87,10 +87,21 @@ def configure_apache_php(
     )
 
     content = httpd_conf.read_text(encoding="utf-8", errors="ignore")
-    content = remove_marked_block(content, PHP_CONFIG_MARKER_START, PHP_CONFIG_MARKER_END)
-    content = remove_marked_block(content, DOCROOT_MARKER_START, DOCROOT_MARKER_END)
-    content = remove_marked_block(content, PHPMYADMIN_MARKER_START, PHPMYADMIN_MARKER_END)
-    content = remove_marked_block(content, DIRECTORY_INDEX_MARKER_START, DIRECTORY_INDEX_MARKER_END)
+    for marker_start, marker_end in (
+        (PHP_CONFIG_MARKER_START, PHP_CONFIG_MARKER_END),
+        (DOCROOT_MARKER_START, DOCROOT_MARKER_END),
+        (PHPMYADMIN_MARKER_START, PHPMYADMIN_MARKER_END),
+        (DIRECTORY_INDEX_MARKER_START, DIRECTORY_INDEX_MARKER_END),
+    ):
+        # Migrate existing portable installations without leaving duplicate blocks.
+        for brand in ("LocalPHP", "LocalWAMP"):
+            start = marker_start.replace("LocalWAMP", brand)
+            end = marker_end.replace("LocalWAMP", brand)
+            while start in content and end in content:
+                cleaned = remove_marked_block(content, start, end)
+                if cleaned == content:
+                    break
+                content = cleaned
     content = set_server_root(content, apache_root_path)
     content = set_listen_port(content, apache_port)
     content = remove_existing_php_directives(content)

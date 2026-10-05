@@ -1,6 +1,7 @@
 ﻿# -*- mode: python ; coding: utf-8 -*-
 
 from pathlib import Path
+from PyInstaller.utils.hooks import collect_data_files
 
 project_root = Path(SPECPATH).parent
 app_dir = project_root / 'app'
@@ -10,7 +11,8 @@ a = Analysis(
     [str(app_dir / 'main.py')],
     pathex=[str(app_dir)],
     binaries=[],
-    datas=[],
+    datas=[(str(project_root / 'assets' / 'localwamp.ico'), 'assets')]
+        + collect_data_files('customtkinter'),
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -26,7 +28,9 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='LocalPHP-Manager',
+    name='LocalWAMP',
+    icon=str(project_root / 'assets' / 'localwamp.ico'),
+    version=str(project_root / 'packaging' / 'version_info.txt'),
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -45,5 +49,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='LocalPHP-Manager',
+    name='LocalWAMP',
 )

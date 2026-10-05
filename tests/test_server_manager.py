@@ -49,14 +49,14 @@ class ApacheEnvironmentTests(unittest.TestCase):
             env = ServerManager._build_apache_environment(
                 php_dir,
                 apache_bin_dir,
-                {"PATH": r"D:\CustomBin", "LOCALPHP_TEST": "enabled"},
+                {"PATH": r"D:\CustomBin", "LOCALWAMP_TEST": "enabled"},
             )
 
         self.assertEqual(
             env["PATH"].split(os.pathsep),
             [str(php_dir), str(apache_bin_dir), r"D:\CustomBin"],
         )
-        self.assertEqual(env["LOCALPHP_TEST"], "enabled")
+        self.assertEqual(env["LOCALWAMP_TEST"], "enabled")
         self.assertEqual(env["SYSTEMROOT"], r"C:\Windows")
 
 
