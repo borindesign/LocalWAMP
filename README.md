@@ -4,7 +4,7 @@ LocalWAMP is a portable Windows development environment with Apache, MySQL and P
 
 It is built for developers who want a simple local PHP stack with Apache, MySQL, phpMyAdmin, and PHP management on Windows.
 
-Live site: [localphp.net](https://localphp.net)
+Live site: [localphp.net/localwamp](https://localphp.net/localwamp/)
 
 Current release: [LocalWAMP v1.3.0](https://github.com/borindesign/LocalPHP/releases/tag/v1.3.0). The repository and website URLs retain their existing addresses.
 
@@ -37,6 +37,8 @@ python app\main.py
 ```
 
 In development, the app resolves the project root as its base directory. In a frozen build, it resolves the executable folder as its base directory so the portable package keeps working from its extracted location.
+
+The local development folder is now `LocalWAMP/` (formerly `LocalPHP/`). Source and packaging scripts derive paths from their own location. After moving or renaming the folder, check the virtual environment activation scripts and executable launchers, the Apache/PHP/MySQL configuration files, and the `htdocs/phpmyadmin` junction. Virtual environments may need to be recreated; use `venv\Scripts\python.exe -m pip` for dependency management. Rebuild generated `build/` and `dist/` output before using it, and treat older `build-fixed/`, `dist-fixed/` and `tmp/` copies as historical artifacts. Existing release archives, repository/domain URLs and legacy configuration markers retain their original names.
 
 ## Releases
 
